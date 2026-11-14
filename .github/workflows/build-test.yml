@@ -50,7 +50,8 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ vars.SERVER_PORT }}
           script: |
-            cd /home/joeljxhnson/github-actions
+            set -e
+            echo "Pulling Docker image: ${{ env.DOCKER_IMAGE }}"
             docker pull ${{ env.DOCKER_IMAGE }}
             docker stop github-actions || true
             docker rm github-actions || true
