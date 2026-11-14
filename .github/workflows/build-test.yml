@@ -65,4 +65,4 @@ jobs:
             sudo docker pull ${{ env.DOCKER_IMAGE }}
             sudo docker stop ${{ env.DOCKER_CONTAINER_NAME }} || true
             sudo docker rm ${{ env.DOCKER_CONTAINER_NAME }} || true
-            sudo docker run -d --name ${{ env.DOCKER_CONTAINER_NAME }} -p 8080:8080 ${{ env.DOCKER_IMAGE }}
+            sudo docker run -d --name ${{ env.DOCKER_CONTAINER_NAME }} -p 8080:8090 ${{ env.DOCKER_IMAGE }}
