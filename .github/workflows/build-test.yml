@@ -1,0 +1,16 @@
+name: Build and Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  job:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build the application
+        run: mvn clean install DskipTests=true
+      - name: Test the Application
+        run: mvn test
+
+
