@@ -7,7 +7,7 @@ on:
       - master
 
 jobs:
-  job:
+  job1:
     name: Build and Test
     runs-on: ubuntu-latest
     steps:
@@ -34,7 +34,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Docker Push
         run: docker push joeljxhnson/github-actions:latest 
-  job:
+  job2:
     name: Deployment 
     runs-on: ubuntu-latest
     steps:
