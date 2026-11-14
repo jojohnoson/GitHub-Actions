@@ -44,6 +44,8 @@ jobs:
     name: Deployment
     runs-on: ubuntu-latest
     steps:
+    env:
+      DOCKER_CONTAINER_NAME: github-actions
       - name: Server-ssh
         uses: appleboy/ssh-action@v1
         with:
@@ -60,8 +62,8 @@ jobs:
               sudo usermod -aG docker $USER
             fi
 
-            echo "Pulling Docker image: ${{ env.DOCKER_IMAGE }}"
-            sudo docker pull ${{ env.DOCKER_IMAGE }}
-            sudo docker stop github-actions || true
-            sudo docker rm github-actions || true
-            sudo docker run -d --name github-actions -p 8090:8090 ${{ env.DOCKER_IMAGE }}
+            docker rmi -f ${{ env.DOCKER_IMAGE }} || true
+            docker pull ${{ env.DOCKER_IMAGE }} 
+            docker stop ${{ env.DOCKER_CONTAINER_NAME }} || true
+            docker rm ${{ env.DOCKER_CONTAINER_NAME }} || true
+            docker run -d --name ${{ env.DOCKER_CONTAINER_NAME }} -p 8080:8080 ${{ env.DOCKER_IMAGE }}
