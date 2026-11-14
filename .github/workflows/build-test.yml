@@ -39,30 +39,30 @@ jobs:
       - name: Docker Push
         run: docker push ${{ env.DOCKER_IMAGE }}
 
-    job2:
-      needs: job1
-      name: Deployment
-      runs-on: ubuntu-latest
-      env:
-        DOCKER_CONTAINER_NAME: github-actions
-      steps:
-        - name: Server-ssh
-          uses: appleboy/ssh-action@v1
-          with:
-            host: ${{ vars.SERVER_HOST }}
-            username: ${{ vars.SERVER_USERNAME }}
-            key: ${{ secrets.SERVER_SSH_KEY }}
-            port: ${{ vars.SERVER_PORT }}
-            script: |
-              set -e
+  job2:
+    needs: job1
+    name: Deployment
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_CONTAINER_NAME: github-actions
+    steps:
+      - name: Server-ssh
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ vars.SERVER_HOST }}
+          username: ${{ vars.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ vars.SERVER_PORT }}
+          script: |
+            set -e
 
-              if ! command -v docker >/dev/null 2>&1; then
+            if ! command -v docker >/dev/null 2>&1; then
               echo "Docker not found, installing..."
               curl -fsSL https://get.docker.com | sudo sh
               sudo usermod -aG docker $USER
-              fi
+            fi
 
-              sudo docker pull ${{ env.DOCKER_IMAGE }}
-              sudo docker stop ${{ env.DOCKER_CONTAINER_NAME }} || true
-              sudo docker rm ${{ env.DOCKER_CONTAINER_NAME }} || true
-              sudo docker run -d --name ${{ env.DOCKER_CONTAINER_NAME }} -p 8080:8080 ${{ env.DOCKER_IMAGE }}
+            sudo docker pull ${{ env.DOCKER_IMAGE }}
+            sudo docker stop ${{ env.DOCKER_CONTAINER_NAME }} || true
+            sudo docker rm ${{ env.DOCKER_CONTAINER_NAME }} || true
+            sudo docker run -d --name ${{ env.DOCKER_CONTAINER_NAME }} -p 8080:8080 ${{ env.DOCKER_IMAGE }}
