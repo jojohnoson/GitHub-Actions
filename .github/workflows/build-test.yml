@@ -1,7 +1,10 @@
 name: Build and Test
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
   job:
@@ -13,5 +16,11 @@ jobs:
 
       - name: List the files in the repository
         run: ls -la 
+
+      - name: Build the application
+        run: mvn clean install DskipTests=true
+
+      - name: Test the Application
+        run: mvn test
 
 
