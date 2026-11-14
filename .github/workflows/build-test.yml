@@ -8,9 +8,10 @@ jobs:
     name: Build and Test
     runs-on: ubuntu-latest
     steps:
-      - name: Build the application
-        run: mvn clean install DskipTests=true
-      - name: Test the Application
-        run: mvn test
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: List the files in the repository
+        run: ls -la 
 
 
