@@ -31,7 +31,7 @@ jobs:
         run: mvn -B test
 
       - name: Docker Build
-        run: ddocker build -t joeljxhnson/github-actions:latest .
+        run: docker build -t joeljxhnson/github-actions:latest .
 
       - name: Docker Login
         uses: docker/login-action@v3
